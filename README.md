@@ -66,3 +66,4 @@ E.g
 
 `https://salty-caverns-46525.herokuapp.com/api/v1/transactions/1`
 
+(The server shuts down after an hour or so of inactivity, so the first request will take a few seconds)
