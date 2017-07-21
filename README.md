@@ -56,9 +56,13 @@ In order to keep it simple and reduce configuration, as per rules 1, 2 and 3, I 
   * GSON (Google library for converting objects to/from JSON)
   * Postman (REST client)
 
+The project took ~5 hours, including learning time, implementation, testing, documenting. I would have liked to have written more tests, but I feel like I had reached the time limit.
 
+I have hosted the application on Heroku, so the API can now be reached at:
 
-This project took ~5 hours, including learning time, implementation, testing, documenting. 
+`https://salty-caverns-46525.herokuapp.com/api/v1`
 
-I would have liked to write more tests, but I feel like I had reached the time limit.
+E.g 
+
+`https://salty-caverns-46525.herokuapp.com/api/v1/transactions/1`
 
