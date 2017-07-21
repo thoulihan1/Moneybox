@@ -1,4 +1,4 @@
-package com.thomas.transaction;
+package com.thomas.transaction.transaction;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
@@ -32,7 +31,7 @@ public class TransactionController {
     Gson gson = new Gson();
 
     //Create new transaction
-    @RequestMapping(method = POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createTransaction(@RequestBody Transaction t) {
         File file = new File("transactions.txt");
         System.out.println("File length: " + file.length());
@@ -65,7 +64,7 @@ public class TransactionController {
     }
 
     //Delete a transaction
-    @RequestMapping(value = "/{transactionId}", method = DELETE)
+    @RequestMapping(value = "/{transactionId}", method = DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteTransaction(@PathVariable final int transactionId){
 
         ArrayList<Transaction> transactions = readTransactions();
@@ -75,6 +74,10 @@ public class TransactionController {
                 transactionToDelete = t;
         }
 
+        if(transactionToDelete==null)
+            return new ResponseEntity<String>("{\"response\":\"404 - transaction not found\"}", HttpStatus.NOT_FOUND);
+
+
         transactions.remove(transactionToDelete);
 
         writeTransactions(transactions);
@@ -82,7 +85,7 @@ public class TransactionController {
     }
 
     //Get all transactions
-    @RequestMapping(method = GET)
+    @RequestMapping(method = GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllTransactions() {
 
         return new ResponseEntity<String>(gson.toJson((readTransactions())), HttpStatus.OK);
@@ -104,7 +107,7 @@ public class TransactionController {
         if(toDisplay!=null){
             return new ResponseEntity<String>(gson.toJson(toDisplay), HttpStatus.OK);
         } else {
-            return new ResponseEntity<String>("404 - not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("{\"response\":\"404 - transaction not found\"}", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -120,6 +123,10 @@ public class TransactionController {
                 toUpdate = trans;
             }
         }
+
+        if(toUpdate==null)
+            return new ResponseEntity<String>("{\"response\":\"404 - transaction not found\"}", HttpStatus.NOT_FOUND);
+
 
         transactions.remove(toUpdate);
         toUpdate.setTransactionId(transactionId);

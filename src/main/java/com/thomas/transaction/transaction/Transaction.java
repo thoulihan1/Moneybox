@@ -1,4 +1,4 @@
-package com.thomas.transaction;
+package com.thomas.transaction.transaction;
 
 /**
  * Created by Thomas on 7/21/17.
@@ -6,7 +6,7 @@ package com.thomas.transaction;
 
 public class Transaction {
 
-    public int id;
+    public int transactionId;
     public String transactionDate;
     public double transactionAmount;
     public String createdDate;
@@ -17,12 +17,12 @@ public class Transaction {
     public Transaction() {
     }
 
-    public int getId() {
-        return id;
+    public int getTransactionId() {
+        return transactionId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTransactionId(int id) {
+        this.transactionId = id;
     }
 
     public int getCurrencyCode() {

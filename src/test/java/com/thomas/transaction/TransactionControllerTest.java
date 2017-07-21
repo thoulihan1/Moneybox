@@ -94,6 +94,23 @@ public class TransactionControllerTest {
     }
 
     @Test
+    public void createWhenNoTxtFile() throws Exception {
+        File file = new File("transactions.txt");
+        PrintWriter writer = new PrintWriter(file);
+        writer.print("");
+        writer.close();
+        file.delete();
+
+        mockMvc.perform(post("/api/v1/transactions")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content("{\"currencyCode\": 7}"))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andDo(print())
+                .andReturn();
+    }
+
+    @Test
     public void deleteTransaction() throws Exception{
 
         MvcResult result = mockMvc.perform(post("/api/v1/transactions")
@@ -126,7 +143,5 @@ public class TransactionControllerTest {
                 .andExpect(status().isNotFound())
                 .andDo(print())
                 .andReturn();
-
-
     }
 }

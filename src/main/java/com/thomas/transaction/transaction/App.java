@@ -1,4 +1,4 @@
-package com.thomas.transaction;
+package com.thomas.transaction.transaction;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class App {
 
     public static void main(String[] args){
-            SpringApplication.run(com.thomas.transaction.App.class, args);
+            SpringApplication.run(App.class, args);
         }
 }
