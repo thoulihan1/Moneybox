@@ -39,15 +39,24 @@ public class TransactionController {
 
         ArrayList<Transaction> transactions;
 
+        int maxId = 0;
         if (file.length() == 0 || file.length() == 2) {
             transactions = new ArrayList<Transaction>();
         } else {
             transactions = readTransactions();
+
+            for(Transaction tran: transactions){
+                if(tran.getTransactionId()>maxId)
+                    maxId = tran.getTransactionId();
+            }
         }
+
+
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         t.setCreatedDate(dateFormat.format(date));
+        t.setTransactionId(maxId+1);
         transactions.add(t);
 
         writeTransactions(transactions);
@@ -62,7 +71,7 @@ public class TransactionController {
         ArrayList<Transaction> transactions = readTransactions();
         Transaction transactionToDelete = null;
         for(Transaction t : transactions){
-            if(t.getId()==transactionId)
+            if(t.getTransactionId()==transactionId)
                 transactionToDelete = t;
         }
 
@@ -74,8 +83,9 @@ public class TransactionController {
 
     //Get all transactions
     @RequestMapping(method = GET)
-    public ArrayList<Transaction> getAllTransactions() {
-        return readTransactions();
+    public ResponseEntity<String> getAllTransactions() {
+
+        return new ResponseEntity<String>(gson.toJson((readTransactions())), HttpStatus.OK);
     }
 
     //Get a transaction
@@ -86,7 +96,7 @@ public class TransactionController {
 
         Transaction toDisplay = null;
         for(Transaction t : transactions){
-            if(t.getId()==transactionId){
+            if(t.getTransactionId()==transactionId){
                 toDisplay = t;
             }
         }
@@ -106,15 +116,27 @@ public class TransactionController {
         Transaction toUpdate = null;
 
         for(Transaction trans : transactions){
-            if(trans.getId()==transactionId){
+            if(trans.getTransactionId()==transactionId){
                 toUpdate = trans;
             }
         }
 
         transactions.remove(toUpdate);
+        toUpdate.setTransactionId(transactionId);
 
-        toUpdate = t;
-        toUpdate.setId(transactionId);
+        if(t.getCurrencyCode()!=0){
+            toUpdate.setCurrencyCode(t.getCurrencyCode());
+        }
+        if(t.getTransactionAmount()!=0){
+            toUpdate.setTransactionAmount(t.getTransactionAmount());
+        }
+        if(t.getTransactionDate()!=null){
+            toUpdate.setTransactionDate(t.getTransactionDate());
+        }
+        if(t.getCreatedDate()!=null){
+            toUpdate.setCreatedDate(t.getCreatedDate());
+        }
+
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
