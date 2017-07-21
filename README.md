@@ -58,7 +58,7 @@ In order to keep it simple and reduce configuration, as per rules 1, 2 and 3, I 
 
 The project took ~5 hours, including learning time, implementation, testing, documenting. I would have liked to have written more tests, but I feel like I had reached the time limit.
 
-I have hosted the application on Heroku, so the API can now be reached at:
+I have deployed the application on Heroku, so the API can now be reached at:
 
 `https://salty-caverns-46525.herokuapp.com/api/v1`
 
